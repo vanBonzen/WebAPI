@@ -1,0 +1,9 @@
+./bin
+./obj
+../.vs
+/.vs/WebAPI/v16
+/.vs/WebAPI/config
+/.vs/WebAPI/DesignTimeBuild/.dtbcache
+/bin/Debug/netcoreapp3.0
+/obj
+/.vs
