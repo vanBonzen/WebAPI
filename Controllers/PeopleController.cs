@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
         #region Constructors
         private readonly PeopleContext _context;
         private readonly PeopleService _service;
-        private readonly ILogger _logger;
+        private readonly ILogger<PeopleController> _logger;
 
         public PeopleController(PeopleContext context, PeopleService service, ILogger<PeopleController> logger)
         {
@@ -30,6 +30,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
+            _logger.LogTrace("API Endpoint called | POST: /api/People ");
             Person db = await _service.PostPerson(person);
             return CreatedAtAction("GetPerson", new { id = db.Id }, db);
         }
@@ -40,7 +41,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<Person>> Get()
         {
-            _logger.LogInformation("API Endpoint called | GET: /api/People ");
+            _logger.LogTrace("API Endpoint called | GET: /api/People ");
             return await _service.GetPeople();
         }
 
@@ -48,7 +49,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(Guid id)
         {
-            _logger.LogInformation("API Endpoint called | GET: /api/People/Guid ");
+            _logger.LogTrace("API Endpoint called | GET: /api/People/Guid ");
             var result = await _service.Find(id);
 
             if (result is null) return NotFound();
@@ -61,7 +62,7 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson(Guid id, Person person)
         {
-            _logger.LogInformation("API Endpoint called | PUT: /api/People/Guid ");
+            _logger.LogTrace("API Endpoint called | PUT: /api/People/Guid ");
             var result = await _service.PutPerson(id, person);
             if (result is null) return NotFound();
             return result;
@@ -73,7 +74,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Person>> DeletePerson(Guid id)
         {
-            _logger.LogInformation("API Endpoint called | DELETE: /api/People/Guid ");
+            _logger.LogTrace("API Endpoint called | DELETE: /api/People/Guid ");
             var person = await _service.DeletePerson(id);
             if (person == null) return NotFound();
 
@@ -84,6 +85,7 @@ namespace WebAPI.Controllers
         #region Helper
         private async Task<bool> PersonExists(Guid id)
         {
+            _logger.LogTrace("PeopleControler internal | PersonExists(Guid id)");
             return await _service.PersonExists(id);
         }
         #endregion
